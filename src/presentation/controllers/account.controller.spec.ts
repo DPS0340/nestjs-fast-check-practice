@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AccountController } from './account.controller';
-import { AccountsUseCases } from 'src/application/use-cases/account.use-case.';
+import { AccountsUseCases } from 'src/application/use-cases/account.use-case';
 import { AccountEntity } from 'src/domain/entities/account.entity';
 import { AccountRepository } from 'src/infrastructure/persistence/account.repository';
 
