@@ -1,8 +1,10 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
 
-@Injectable()
+@Entity()
 export class AccountEntity {
-  private readonly logger = new Logger(AccountEntity.name);
+  @PrimaryKey()
+  id!: number;
 
-  constructor() {}
+  @Property()
+  name!: string;
 }
