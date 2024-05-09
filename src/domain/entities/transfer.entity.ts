@@ -1,4 +1,5 @@
-import { Entity, Enum, PrimaryKey, Property } from '@mikro-orm/core';
+import { Entity, Enum, ManyToOne, PrimaryKey, Property } from '@mikro-orm/core';
+import { AccountEntity } from './account.entity';
 
 export enum TransferType {
   Deposit = 'deposit',
@@ -9,6 +10,9 @@ export enum TransferType {
 export class TransferEntity {
   @PrimaryKey()
   id: number;
+
+  @ManyToOne({ primary: true })
+  account: AccountEntity;
 
   @Property()
   amount!: number;
