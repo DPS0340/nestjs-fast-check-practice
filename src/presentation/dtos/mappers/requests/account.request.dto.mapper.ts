@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { AccountEntity } from 'src/domain/entities/account.entity';
-import { AccountResponseDto } from '../../response/account.response.dto';
 import { TransferRequestDtoMapper } from './transfer.request.dto.mapper';
+import { AccountCreateRequestDto } from '../../requests/create/account.create.request.dto';
+import { AccountEntity } from 'src/domain/entities/account.entity';
 
 @Injectable()
 export class AccountRequestDtoMapper {
@@ -9,13 +9,10 @@ export class AccountRequestDtoMapper {
     private readonly transferRequestDtoMapper: TransferRequestDtoMapper,
   ) {}
 
-  convertToDto(entity: AccountEntity): AccountResponseDto {
-    const { id, name, balance, transfers } = entity;
+  convertToEntity(dto: AccountCreateRequestDto): AccountEntity {
+    const { name } = dto;
     return {
-      id,
       name,
-      balance,
-      transfers: transfers.map(this.transferRequestDtoMapper.convertToDto),
-    } as AccountResponseDto;
+    } as AccountEntity;
   }
 }
