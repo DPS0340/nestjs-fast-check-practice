@@ -11,7 +11,7 @@ export class TransferEntity {
   @PrimaryKey()
   id: number;
 
-  @ManyToOne({ primary: true })
+  @ManyToOne({ primary: true, entity: () => AccountEntity })
   account: AccountEntity;
 
   @Property()

@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post } from '@nestjs/common';
 import { AccountResponseDto } from '../dtos/response/account.response.dto';
-import { AccountsUseCases } from 'src/application/use-cases/account.use-case';
+import { AccountsUseCases } from '../../application/use-cases/account.use-case';
 import { AccountCreateRequestDto } from '../dtos/requests/create/account.create.request.dto';
 
 @Controller('accounts')

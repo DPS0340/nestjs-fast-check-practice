@@ -1,4 +1,4 @@
-import { TransferType } from 'src/domain/entities/transfer.entity';
+import { TransferType } from '../../../domain/entities/transfer.entity';
 
 export class TransferResponseDto {
   id: number;

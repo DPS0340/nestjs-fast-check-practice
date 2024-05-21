@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { AccountEntity } from 'src/domain/entities/account.entity';
+import { AccountEntity } from '../../../../domain/entities/account.entity';
 import { AccountResponseDto } from '../../response/account.response.dto';
 import { TransferResponseDtoMapper } from './transfer.response.dto.mapper';
 

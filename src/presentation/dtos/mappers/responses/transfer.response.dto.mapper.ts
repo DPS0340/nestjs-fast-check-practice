@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TransferEntity } from 'src/domain/entities/transfer.entity';
+import { TransferEntity } from '../../../../domain/entities/transfer.entity';
 import { TransferResponseDto } from '../../response/transfer.response.dto';
 
 @Injectable()
