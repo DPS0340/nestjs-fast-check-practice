@@ -21,6 +21,8 @@
   },
   "dependencies": {
     "@mikro-orm/core": "^6.2.5",
+    "@mikro-orm/entity-generator": "6.2.5",
+    "@mikro-orm/migrations": "6.2.5",
     "@mikro-orm/nestjs": "^5.2.3",
     "@mikro-orm/sqlite": "^6.2.5",
     "@nestjs/common": "^10.0.0",
@@ -69,5 +71,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "yarn@4.2.2"
 }
