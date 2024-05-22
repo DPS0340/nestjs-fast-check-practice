@@ -889,7 +889,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/core@npm:^6.2.5":
+"@mikro-orm/core@npm:6.2.8":
   version: 6.2.8
   resolution: "@mikro-orm/core@npm:6.2.8"
   dependencies:
@@ -904,28 +904,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/entity-generator@npm:6.2.5":
-  version: 6.2.5
-  resolution: "@mikro-orm/entity-generator@npm:6.2.5"
+"@mikro-orm/entity-generator@npm:6.2.8":
+  version: 6.2.8
+  resolution: "@mikro-orm/entity-generator@npm:6.2.8"
   dependencies:
-    "@mikro-orm/knex": "npm:6.2.5"
+    "@mikro-orm/knex": "npm:6.2.8"
     fs-extra: "npm:11.2.0"
   peerDependencies:
     "@mikro-orm/core": ^6.0.0
-  checksum: 10c0/0e50669ce6538f5340560abc8e6a0449b220a21efe8e4a06ad2fb63d18738bab9fb061bed7061c2f593bbe70cea63a57f898aa66dd707e062bba1e8b52a6ae0d
-  languageName: node
-  linkType: hard
-
-"@mikro-orm/knex@npm:6.2.5":
-  version: 6.2.5
-  resolution: "@mikro-orm/knex@npm:6.2.5"
-  dependencies:
-    fs-extra: "npm:11.2.0"
-    knex: "npm:3.1.0"
-    sqlstring: "npm:2.3.3"
-  peerDependencies:
-    "@mikro-orm/core": ^6.0.0
-  checksum: 10c0/238af5c877e7d834bb497cbecae359abaacfb1bdd87ea3ea35d59876e41d8e24aac5ef20b9ab4332902338ac95f4a6f45410a6a83df92b2e6ebd6e88b5816be7
+  checksum: 10c0/bef4fab59bf89f36a79945b6aa502a8223b5592e61344ce3b58cc11c910a644a7c6e71bec1719a773986a1281af93546712868dcc311f9c61073b39e6afb32a8
   languageName: node
   linkType: hard
 
@@ -942,16 +929,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/migrations@npm:6.2.5":
-  version: 6.2.5
-  resolution: "@mikro-orm/migrations@npm:6.2.5"
+"@mikro-orm/migrations@npm:6.2.8":
+  version: 6.2.8
+  resolution: "@mikro-orm/migrations@npm:6.2.8"
   dependencies:
-    "@mikro-orm/knex": "npm:6.2.5"
+    "@mikro-orm/knex": "npm:6.2.8"
     fs-extra: "npm:11.2.0"
     umzug: "npm:3.8.0"
   peerDependencies:
     "@mikro-orm/core": ^6.0.0
-  checksum: 10c0/88c77d92df11558fe4997e0b0aaf62cb7ae67e3b6b09d8c73d9be7e03470e2200ea794a18f79f224a11268bc3161e3a27a7fa20ac7c75a9736d98c8dc2b92881
+  checksum: 10c0/d12ac6a76393ab24de973272f0c16d2b009f7562b553b6faeaf03c45dd22fc847760585df966b0a01a3006af27a5fd9f72113e5cdae7f973d1fb06e2ec50b7c3
   languageName: node
   linkType: hard
 
@@ -966,7 +953,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mikro-orm/sqlite@npm:^6.2.5":
+"@mikro-orm/sqlite@npm:6.2.8":
   version: 6.2.8
   resolution: "@mikro-orm/sqlite@npm:6.2.8"
   dependencies:
@@ -5905,11 +5892,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "nestjs-fast-check-practice@workspace:."
   dependencies:
-    "@mikro-orm/core": "npm:^6.2.5"
-    "@mikro-orm/entity-generator": "npm:6.2.5"
-    "@mikro-orm/migrations": "npm:6.2.5"
+    "@mikro-orm/core": "npm:6.2.8"
+    "@mikro-orm/entity-generator": "npm:6.2.8"
+    "@mikro-orm/migrations": "npm:6.2.8"
     "@mikro-orm/nestjs": "npm:^5.2.3"
-    "@mikro-orm/sqlite": "npm:^6.2.5"
+    "@mikro-orm/sqlite": "npm:6.2.8"
     "@nestjs/cli": "npm:^10.0.0"
     "@nestjs/common": "npm:^10.0.0"
     "@nestjs/core": "npm:^10.0.0"
