@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: npm i -g yarn
-      - run: yarn set version stable
-      - run: yarn
+      - run: corepack install -g yarn@4.2.2
+      - run: corepack yarn set version 4.2.2 # for persistence, use 'yarn policies set-version 4.2.2'
+      - run: corepack yarn
       - run: yarn test
