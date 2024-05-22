@@ -19,5 +19,5 @@ jobs:
           cache: "npm"
       - run: npm i -g yarn
       - run: yarn set version stable
-      - run: yarn install --force
+      - run: yarn
       - run: yarn test
