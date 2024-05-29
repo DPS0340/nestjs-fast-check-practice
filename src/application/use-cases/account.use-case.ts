@@ -31,24 +31,33 @@ export class AccountsUseCases {
   }
 
   async findById(id: number): Promise<AccountResponseDto> {
-    const entity = await this.accountRepository.findOneOrFail({ id });
+    const entity = await this.accountRepository.findOneOrFail(
+      { id },
+      { populate: ['transfers'] },
+    );
     return this.accountResponseDtoMapper.convertToDto(entity);
   }
 
   async create(data: AccountCreateRequestDto): Promise<AccountResponseDto> {
+    console.log({ data });
     const entity = await this.accountRepository.create(data);
 
-    console.log({ entity });
-
     await this.em.flush();
+
+    console.log({ entity });
+    console.log({ transfers: entity.transfers });
+    console.log({ transfersLength: entity.transfers.length });
 
     return this.accountResponseDtoMapper.convertToDto(entity);
   }
 
   async transfer(data: TransferCreateRequestDto): Promise<TransferResponseDto> {
-    const account = await this.accountRepository.findOneOrFail({
-      id: data.accountId,
-    });
+    const account = await this.accountRepository.findOneOrFail(
+      {
+        id: data.accountId,
+      },
+      { populate: ['transfers'] },
+    );
     if (data.amount <= 0) {
       // Validation check handling
       throw new HttpException(
@@ -61,11 +70,16 @@ export class AccountsUseCases {
     } else {
       account.balance -= data.amount;
     }
+
     const transfer = this.transferRepository.create({
-      account: account,
       amount: data.amount,
       type: data.type,
     });
+
+    await account.transfers.loadItems();
+    account.transfers.add(transfer);
+
+    console.log({ transfer });
 
     await this.em.flush();
 

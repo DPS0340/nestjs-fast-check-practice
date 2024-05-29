@@ -10,7 +10,7 @@ import { TransferEntity } from './transfer.entity';
 
 @Entity()
 export class AccountEntity {
-  @PrimaryKey()
+  @PrimaryKey({ autoincrement: true })
   id!: number;
 
   @Property()

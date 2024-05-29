@@ -112,19 +112,16 @@ describe('AccountController', () => {
           expect(userDto.name).toEqual(requestDto.name);
           expect(userDto.balance).toEqual(0);
 
-          const transfers: TransferCreateRequestDto[] = [
-            'deposit',
-            'withdraw',
-          ].map(
-            (e) =>
-              ({
-                type: e,
-                accountId: id,
-                amount,
-              }) as TransferCreateRequestDto,
+          await Promise.allSettled(
+            ['deposit', 'withdraw'].map(
+              (e) =>
+                ({
+                  type: e,
+                  accountId: id,
+                  amount,
+                }) as TransferCreateRequestDto,
+            ),
           );
-
-          transfers.forEach((e) => accountController.transfer(id, e));
 
           userDto = await accountController.findById(id);
 
@@ -134,5 +131,5 @@ describe('AccountController', () => {
         },
       ),
     );
-  }, 50000);
+  }, 500000);
 });

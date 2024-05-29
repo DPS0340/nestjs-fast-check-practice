@@ -8,11 +8,11 @@ export enum TransferType {
 
 @Entity()
 export class TransferEntity {
-  @PrimaryKey()
+  @PrimaryKey({ autoincrement: true })
   id!: number;
 
-  @ManyToOne({ primary: true, entity: () => AccountEntity })
-  account: AccountEntity;
+  @ManyToOne({ entity: () => AccountEntity })
+  account!: AccountEntity;
 
   @Property()
   amount!: number;
