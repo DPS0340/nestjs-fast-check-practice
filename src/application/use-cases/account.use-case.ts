@@ -8,6 +8,8 @@ import { AccountCreateRequestDto } from '../../presentation/dtos/requests/create
 import { TransferCreateRequestDto } from '../../presentation/dtos/requests/create/transfer.create.request.dto';
 import { AccountResponseDto } from '../../presentation/dtos/response/account.response.dto';
 import { InjectRepository } from '@mikro-orm/nestjs';
+import { TransferResponseDtoMapper } from '../../presentation/dtos/mappers/responses/transfer.response.dto.mapper';
+import { TransferResponseDto } from '../../presentation/dtos/response/transfer.response.dto';
 
 @Injectable()
 export class AccountsUseCases {
@@ -21,6 +23,7 @@ export class AccountsUseCases {
     private readonly transferRepository: EntityRepository<TransferEntity>,
     private readonly accountRequestDtoMapper: AccountRequestDtoMapper,
     private readonly accountResponseDtoMapper: AccountResponseDtoMapper,
+    private readonly transferResponseDtoMapper: TransferResponseDtoMapper,
   ) {}
 
   async findAll(): Promise<AccountEntity[]> {
@@ -42,7 +45,7 @@ export class AccountsUseCases {
     return this.accountResponseDtoMapper.convertToDto(entity);
   }
 
-  async transfer(data: TransferCreateRequestDto) {
+  async transfer(data: TransferCreateRequestDto): Promise<TransferResponseDto> {
     const account = await this.accountRepository.findOneOrFail({
       id: data.accountId,
     });
@@ -53,12 +56,19 @@ export class AccountsUseCases {
         HttpStatus.BAD_REQUEST,
       );
     }
-    this.transferRepository.create({
+    if (data.type === 'deposit') {
+      account.balance += data.amount;
+    } else {
+      account.balance -= data.amount;
+    }
+    const transfer = this.transferRepository.create({
       account: account,
       amount: data.amount,
       type: data.type,
     });
 
     await this.em.flush();
+
+    return this.transferResponseDtoMapper.convertToDto(transfer);
   }
 }

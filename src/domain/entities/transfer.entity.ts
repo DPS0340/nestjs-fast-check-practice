@@ -9,7 +9,7 @@ export enum TransferType {
 @Entity()
 export class TransferEntity {
   @PrimaryKey()
-  id: number;
+  id!: number;
 
   @ManyToOne({ primary: true, entity: () => AccountEntity })
   account: AccountEntity;

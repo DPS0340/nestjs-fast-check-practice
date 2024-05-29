@@ -5,6 +5,7 @@ import { AccountEntity } from '../../domain/entities/account.entity';
 import { AccountRequestDtoMapper } from '../../presentation/dtos/mappers/requests/account.request.dto.mapper';
 import { TransferEntity } from '../../domain/entities/transfer.entity';
 import { TransferRequestDtoMapper } from '../../presentation/dtos/mappers/requests/transfer.request.dto.mapper';
+import { TransferResponseDtoMapper } from 'src/presentation/dtos/mappers/responses/transfer.response.dto.mapper';
 
 @Module({
   imports: [],
@@ -15,6 +16,7 @@ import { TransferRequestDtoMapper } from '../../presentation/dtos/mappers/reques
     TransferEntity,
     AccountRequestDtoMapper,
     TransferRequestDtoMapper,
+    TransferResponseDtoMapper,
   ],
   providers: [],
 })

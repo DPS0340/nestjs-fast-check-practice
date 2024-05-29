@@ -15,6 +15,7 @@ import { TransferResponseDtoMapper } from '../dtos/mappers/responses/transfer.re
 import { MikroORM } from '@mikro-orm/core';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
+import { TransferCreateRequestDto } from '../dtos/requests/create/transfer.create.request.dto';
 
 describe('AccountController', () => {
   let app: INestApplication;
@@ -61,39 +62,77 @@ describe('AccountController', () => {
     accountController = moduleFixture.get<AccountController>(AccountController);
   });
 
-  describe('root', () => {
-    it('should success to create user', async () => {
-      await fc.assert(
-        fc.asyncProperty(fc.string(), async (name) => {
-          const requestDto: AccountCreateRequestDto = {
-            name,
-          };
-          const {
-            name: accountName,
-            id,
-            balance,
-          } = await accountController.create(requestDto);
-          expect(accountName).toEqual(name);
-          expect(id).toEqual(expect.any(Number));
-          expect(balance).toEqual(0);
-        }),
-      );
-    });
-    it('should get user using id from create user', async () => {
-      await fc.assert(
-        fc.asyncProperty(fc.string(), async (name) => {
+  it('should success to create user', async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.string(), async (name) => {
+        const requestDto: AccountCreateRequestDto = {
+          name,
+        };
+        const {
+          name: accountName,
+          id,
+          balance,
+        } = await accountController.create(requestDto);
+        expect(accountName).toEqual(name);
+        expect(id).toEqual(expect.any(Number));
+        expect(balance).toEqual(0);
+      }),
+    );
+  });
+  it('should get user using id from create user', async () => {
+    await fc.assert(
+      fc.asyncProperty(fc.string(), async (name) => {
+        const requestDto: AccountCreateRequestDto = {
+          name,
+        };
+        const { id } = await accountController.create(requestDto);
+
+        const responseDto = await accountController.findById(id);
+
+        expect(responseDto.id).toEqual(id);
+        expect(responseDto.name).toEqual(requestDto.name);
+        expect(responseDto.balance).toEqual(0);
+      }),
+    );
+  });
+  it('should final amount is 0 from +- amount transfers', async () => {
+    await fc.assert(
+      fc.asyncProperty(
+        fc.string(),
+        fc.integer({ min: 1 }),
+        async (name, amount) => {
           const requestDto: AccountCreateRequestDto = {
             name,
           };
           const { id } = await accountController.create(requestDto);
 
-          const responseDto = await accountController.findById(id);
+          let userDto = await accountController.findById(id);
 
-          expect(responseDto.id).toEqual(id);
-          expect(responseDto.name).toEqual(requestDto.name);
-          expect(responseDto.balance).toEqual(0);
-        }),
-      );
-    });
-  });
+          expect(userDto.id).toEqual(id);
+          expect(userDto.name).toEqual(requestDto.name);
+          expect(userDto.balance).toEqual(0);
+
+          const transfers: TransferCreateRequestDto[] = [
+            'deposit',
+            'withdraw',
+          ].map(
+            (e) =>
+              ({
+                type: e,
+                accountId: id,
+                amount,
+              }) as TransferCreateRequestDto,
+          );
+
+          transfers.forEach((e) => accountController.transfer(id, e));
+
+          userDto = await accountController.findById(id);
+
+          expect(userDto.id).toEqual(id);
+          expect(userDto.name).toEqual(requestDto.name);
+          expect(userDto.balance).toEqual(0);
+        },
+      ),
+    );
+  }, 50000);
 });
