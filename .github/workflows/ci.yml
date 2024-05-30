@@ -12,6 +12,12 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
+      - name: Start minikube
+        uses: medyagh/setup-minikube@master
+      - name: Install skaffold
+        run: |
+          curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+          sudo install skaffold /usr/local/bin/
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
@@ -21,4 +27,9 @@ jobs:
       - run: corepack yarn set version 4.2.2 # for persistence, use 'yarn policies set-version 4.2.2'
       - run: corepack yarn
       - run: yarn test
-      - run: yarn start:dev & npx wait-on http://localhost:3000
+      - name: Start server and check port opens
+        run: |
+          yarn start:dev &
+          npx wait-on http://localhost:3000
+          killport 3000
+          exit 0
