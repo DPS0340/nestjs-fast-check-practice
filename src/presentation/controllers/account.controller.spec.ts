@@ -116,7 +116,7 @@ describe('AccountController', () => {
           await Promise.allSettled(
             amounts
               .flatMap((e) =>
-                [e, -e].map(
+                [e, e].map(
                   (amount, idx) =>
                     ({
                       type: ['deposit', 'withdraw'][idx],
