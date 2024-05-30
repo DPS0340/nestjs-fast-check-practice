@@ -27,8 +27,8 @@ jobs:
       - run: corepack yarn set version 4.2.2 # for persistence, use 'yarn policies set-version 4.2.2'
       - run: corepack yarn
       - run: yarn test
+      - run: npm i -g wait-on
+      - run: nohup yarn start:dev &
+        continue-on-error: true
       - name: Start server and check port opens
-        run: |
-          (nohup yarn start:dev &) ; \
-          npx wait-on http://0.0.0.0:3000 && killport 3000 && \
-          exit 0
+        run: npx wait-on http://localhost:3000 && killport 3000
