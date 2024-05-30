@@ -113,7 +113,7 @@ describe('AccountController', () => {
           expect(userDto.balance).toEqual(0);
           expect(userDto.rawBalance).toEqual(0);
 
-          Promise.allSettled(
+          await Promise.allSettled(
             amounts
               .flatMap((e) =>
                 [e, -e].map(
