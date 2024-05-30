@@ -70,13 +70,20 @@ export class AccountsUseCases {
       );
     }
 
-    const transfer = await this.em.transactional(
+    await this.em.transactional(
       async (em) => {
         if (data.type === 'deposit') {
           account.rawBalance += data.amount;
         } else {
           account.rawBalance -= data.amount;
         }
+        await em.persistAndFlush(account);
+      },
+      { isolationLevel: IsolationLevel.SERIALIZABLE },
+    );
+
+    const transfer = await this.em.transactional(
+      async (em) => {
         const transfer = this.transferRepository.create({
           amount: data.amount,
           type: data.type,
@@ -85,7 +92,7 @@ export class AccountsUseCases {
         await account.transfers.loadItems();
         account.transfers.add(transfer);
 
-        await em.flush();
+        await em.persistAndFlush(transfer);
         return transfer;
       },
       { isolationLevel: IsolationLevel.SERIALIZABLE },
