@@ -31,4 +31,6 @@ jobs:
       - run: nohup yarn start:dev &
         continue-on-error: true
       - name: Check nest server port opens
-        run: npx wait-on http://localhost:3000 && killport 3000
+        run: |
+          curl -vvv http://localhost:3000 ; \
+          npx wait-on http://localhost:3000 && killport 3000
