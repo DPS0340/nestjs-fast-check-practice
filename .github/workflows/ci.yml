@@ -33,4 +33,4 @@ jobs:
       - name: Check nest server port opens
         run: |
           curl -vvv http://localhost:3000/api/swagger ; \
-          npx wait-on http://localhost:3000/api/swagger && killport 3000
+          npx wait-on http://localhost:3000/api/swagger && sudo kill -9 `sudo lsof -t -i:3000`
