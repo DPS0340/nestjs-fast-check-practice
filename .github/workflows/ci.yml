@@ -32,5 +32,5 @@ jobs:
         continue-on-error: true
       - name: Check nest server port opens
         run: |
-          curl -vvv http://localhost:3000 ; \
-          npx wait-on http://localhost:3000 && killport 3000
+          curl -vvv http://localhost:3000/api/swagger ; \
+          npx wait-on http://localhost:3000/api/swagger && killport 3000
