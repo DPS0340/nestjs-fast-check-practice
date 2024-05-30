@@ -11,12 +11,13 @@ export class AccountResponseDtoMapper {
 
   convertToDto(entity: AccountEntity): AccountResponseDto {
     const balance = entity.getBalance();
-    const { id, name, transfers } = entity;
+    const { id, name, transfers, rawBalance } = entity;
     return {
       id,
       name,
       balance,
+      rawBalance,
       transfers: transfers.map(this.transferResponseDtoMapper.convertToDto),
-    } as AccountResponseDto;
+    };
   }
 }

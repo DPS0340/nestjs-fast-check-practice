@@ -32,6 +32,9 @@ export class AccountEntity {
       .reduce((a, b) => a + b, 0);
   }
 
+  @Property()
+  rawBalance: number = 0;
+
   @OneToMany(() => TransferEntity, (e) => e.account, {
     cascade: [Cascade.ALL],
   })

@@ -4,5 +4,6 @@ export class AccountResponseDto {
   id: number;
   name: string;
   balance: number;
+  rawBalance: number;
   transfers: TransferResponseDto[];
 }

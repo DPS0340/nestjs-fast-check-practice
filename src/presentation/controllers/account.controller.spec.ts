@@ -111,6 +111,7 @@ describe('AccountController', () => {
           expect(userDto.id).toEqual(id);
           expect(userDto.name).toEqual(requestDto.name);
           expect(userDto.balance).toEqual(0);
+          expect(userDto.rawBalance).toEqual(0);
 
           Promise.allSettled(
             amounts
@@ -132,6 +133,7 @@ describe('AccountController', () => {
           expect(userDto.id).toEqual(id);
           expect(userDto.name).toEqual(requestDto.name);
           expect(userDto.balance).toEqual(0);
+          expect(userDto.rawBalance).toEqual(0);
         },
       ),
     );

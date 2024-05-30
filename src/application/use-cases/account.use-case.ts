@@ -1,4 +1,8 @@
-import { EntityManager, EntityRepository } from '@mikro-orm/core';
+import {
+  EntityManager,
+  EntityRepository,
+  IsolationLevel,
+} from '@mikro-orm/core';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { AccountEntity } from '../../domain/entities/account.entity';
 import { TransferEntity } from '../../domain/entities/transfer.entity';
@@ -66,17 +70,26 @@ export class AccountsUseCases {
       );
     }
 
-    const transfer = this.transferRepository.create({
-      amount: data.amount,
-      type: data.type,
-    });
+    const transfer = await this.em.transactional(
+      async (em) => {
+        if (data.type === 'deposit') {
+          account.rawBalance += data.amount;
+        } else {
+          account.rawBalance -= data.amount;
+        }
+        const transfer = this.transferRepository.create({
+          amount: data.amount,
+          type: data.type,
+        });
 
-    await account.transfers.loadItems();
-    account.transfers.add(transfer);
+        await account.transfers.loadItems();
+        account.transfers.add(transfer);
 
-    console.log({ transfer });
-
-    await this.em.flush();
+        await em.flush();
+        return transfer;
+      },
+      { isolationLevel: IsolationLevel.SERIALIZABLE },
+    );
 
     return this.transferResponseDtoMapper.convertToDto(transfer);
   }
