@@ -121,7 +121,7 @@ describe('AccountController', () => {
                       type: ['deposit', 'withdraw'][idx],
                       accountId: id,
                       amount,
-                    } as TransferCreateRequestDto),
+                    }) as TransferCreateRequestDto,
                 ),
               )
               .map((e) => accountController.transfer(id, e)),

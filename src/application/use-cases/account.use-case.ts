@@ -65,11 +65,6 @@ export class AccountsUseCases {
         HttpStatus.BAD_REQUEST,
       );
     }
-    if (data.type === 'deposit') {
-      account.balance += data.amount;
-    } else {
-      account.balance -= data.amount;
-    }
 
     const transfer = this.transferRepository.create({
       amount: data.amount,

@@ -10,7 +10,8 @@ export class AccountResponseDtoMapper {
   ) {}
 
   convertToDto(entity: AccountEntity): AccountResponseDto {
-    const { id, name, balance, transfers } = entity;
+    const balance = entity.getBalance();
+    const { id, name, transfers } = entity;
     return {
       id,
       name,

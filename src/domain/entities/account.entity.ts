@@ -16,8 +16,21 @@ export class AccountEntity {
   @Property()
   name!: string;
 
+  // See https://mikro-orm.io/docs/defining-entities#virtual-properties
   @Property()
-  balance: number = 0;
+  getBalance() {
+    return this.transfers
+      .map((e) => {
+        if (e.type === 'deposit') {
+          return e.amount;
+        }
+        if (e.type === 'withdraw') {
+          return -e.amount;
+        }
+        return 0;
+      })
+      .reduce((a, b) => a + b, 0);
+  }
 
   @OneToMany(() => TransferEntity, (e) => e.account, {
     cascade: [Cascade.ALL],
