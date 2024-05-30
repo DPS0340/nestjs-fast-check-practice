@@ -99,8 +99,8 @@ describe('AccountController', () => {
     await fc.assert(
       fc.asyncProperty(
         fc.string(),
-        fc.integer({ min: 1 }),
-        async (name, amount) => {
+        fc.array(fc.nat()),
+        async (name, amounts) => {
           const requestDto: AccountCreateRequestDto = {
             name,
           };
@@ -112,15 +112,19 @@ describe('AccountController', () => {
           expect(userDto.name).toEqual(requestDto.name);
           expect(userDto.balance).toEqual(0);
 
-          await Promise.allSettled(
-            ['deposit', 'withdraw'].map(
-              (e) =>
-                ({
-                  type: e,
-                  accountId: id,
-                  amount,
-                }) as TransferCreateRequestDto,
-            ),
+          Promise.allSettled(
+            amounts
+              .flatMap((e) =>
+                [e, -e].map(
+                  (amount, idx) =>
+                    ({
+                      type: ['deposit', 'withdraw'][idx],
+                      accountId: id,
+                      amount,
+                    } as TransferCreateRequestDto),
+                ),
+              )
+              .map((e) => accountController.transfer(id, e)),
           );
 
           userDto = await accountController.findById(id);
