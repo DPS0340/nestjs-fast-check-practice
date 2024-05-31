@@ -4,13 +4,11 @@ WORKDIR /builder
 
 RUN curl -fsSL https://bun.sh/install | sh
 
-ENV PATH="${PATH}:~/.bun/bin"
-
 COPY . .
 
-RUN bun i
+RUN ~/.bun/bin/bun i
 
-RUN bun build
+RUN ~/.bun/bin/bun build
 
 FROM node:lts-alpine
 
@@ -18,7 +16,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN bun install --production
+RUN ~/.bun/bin/bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
