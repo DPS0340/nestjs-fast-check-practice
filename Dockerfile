@@ -2,8 +2,9 @@ FROM node:lts-alpine as builder
 
 WORKDIR /builder
 
-RUN curl -fsSL https://bun.sh/install | sh && \
-    export PATH="~/.bun/bin/bun:$PATH"
+RUN curl -fsSL https://bun.sh/install | sh
+
+ENV PATH="${PATH}:~/.bun/bin"
 
 COPY . .
 
