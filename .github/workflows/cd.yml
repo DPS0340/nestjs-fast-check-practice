@@ -12,7 +12,7 @@ jobs:
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
-          image: ghcr.io/DPS0340/nestjs-fast-check-practice
+          image: ghcr.io/dps0340/nestjs-fast-check-practice
           username: ${{ github.repository }}
           password: ${{ secrets.GITHUB_TOKEN }}
           cache: true
