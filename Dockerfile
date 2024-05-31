@@ -2,13 +2,17 @@ FROM node:lts-alpine as builder
 
 WORKDIR /builder
 
+RUN apk add curl
+
 RUN curl -fsSL https://bun.sh/install | sh
+
+ENV PATH="${PATH}:~/.bun/bin/bun"
 
 COPY . .
 
-RUN ~/.bun/bin/bun i
+RUN bun i
 
-RUN ~/.bun/bin/bun build
+RUN bun build
 
 FROM node:lts-alpine
 
@@ -16,7 +20,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN ~/.bun/bin/bun install --production
+RUN bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
