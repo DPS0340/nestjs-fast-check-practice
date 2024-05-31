@@ -8,9 +8,14 @@ RUN curl -fsSL https://bun.sh/install | bash
 
 COPY . .
 
-RUN /root/.bun/bin/bun i
+RUN echo -e 'export BUN_INSTALL="$HOME/.bun"\n\
+    export PATH="$BUN_INSTALL/bin:$PATH"' > ~/.bashrc
 
-RUN /root/.bun/bin/bun build
+SHELL ["/bin/bash", "-c"]
+
+RUN bun i
+
+RUN bun build
 
 FROM node:lts-alpine
 
@@ -18,7 +23,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN /root/.bun/bin/bun install --production
+RUN bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
