@@ -13,9 +13,9 @@ SHELL ["/bin/bash", "-c"]
 
 COPY . .
 
-RUN ~/.bun/bin/bun i
+RUN cd /builder && ~/.bun/bin/bun i
 
-RUN ~/.bun/bin/bun build
+RUN cd /builder && ~/.bun/bin/bun build
 
 FROM node:lts-alpine
 
@@ -32,7 +32,7 @@ SHELL ["/bin/bash", "-c"]
 
 COPY . .
 
-RUN ~/.bun/bin/bun install --production
+RUN cd /builder && ~/.bun/bin/bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
