@@ -7,11 +7,11 @@ COPY package.json yarn.lock ./
 RUN corepack install -g yarn@4.2.2
 RUN corepack yarn set version 4.2.2
 
-RUN yarn install --frozen-lockfile
+RUN corepack yarn install
 
 COPY . .
 
-RUN yarn build
+RUN corepack yarn build
 
 FROM node:lts-alpine
 
@@ -20,8 +20,8 @@ WORKDIR /app
 RUN corepack install -g yarn@4.2.2
 RUN corepack yarn set version 4.2.2
 
-RUN yarn install --production --frozen-lockfile
+RUN corepack yarn install --production
 
-COPY --from=builder /usr/src/app/dist ./dist
+COPY --from=builder /builder/dist ./dist
 
 CMD ["node", "dist/server.js"]
