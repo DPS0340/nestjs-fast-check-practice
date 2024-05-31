@@ -2,9 +2,9 @@ FROM node:lts-alpine as builder
 
 WORKDIR /builder
 
-RUN apk add curl
+RUN apk add curl bash
 
-RUN curl -fsSL https://bun.sh/install | sh
+RUN curl -fsSL https://bun.sh/install | bash
 
 ENV PATH="${PATH}:~/.bun/bin/bun"
 
