@@ -7,7 +7,7 @@ COPY package.json yarn.lock ./
 RUN corepack install -g yarn@4.2.2
 RUN corepack yarn set version 4.2.2
 
-RUN corepack yarn install
+RUN corepack yarn
 
 COPY . .
 
@@ -16,6 +16,8 @@ RUN corepack yarn build
 FROM node:lts-alpine
 
 WORKDIR /app
+
+COPY package.json yarn.lock ./
 
 RUN corepack install -g yarn@4.2.2
 RUN corepack yarn set version 4.2.2
