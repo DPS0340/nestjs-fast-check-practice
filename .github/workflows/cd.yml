@@ -14,5 +14,5 @@ jobs:
         with:
           image: ghcr.io/dps0340/nestjs-fast-check-practice
           username: ${{ github.repository }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_TOKEN }}
           cache: true
