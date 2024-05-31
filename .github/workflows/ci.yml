@@ -23,12 +23,14 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-      - run: corepack install -g yarn@4.2.2
-      - run: corepack yarn set version 4.2.2 # for persistence, use 'yarn policies set-version 4.2.2'
-      - run: corepack yarn
-      - run: yarn test
-      - run: npm i -g wait-on
-      - run: nohup yarn start:dev &
+      - name: install bun package manager
+        run: |
+          curl -fsSL https://bun.sh/install | bash && \
+          export PATH="~/.bun/bin/bun:$PATH"
+      - run: bun i
+      - run: bun test
+      - run: bun i -g wait-on
+      - run: nohup bun start:dev &
         continue-on-error: true
       - name: Check nest server port opens
         run: |

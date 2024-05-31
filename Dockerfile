@@ -2,14 +2,14 @@ FROM node:lts-alpine as builder
 
 WORKDIR /builder
 
-RUN corepack install -g yarn@4.2.2
-RUN corepack yarn set version 4.2.2
+RUN curl -fsSL https://bun.sh/install | sh && \
+    export PATH="~/.bun/bin/bun:$PATH"
 
 COPY . .
 
-RUN corepack yarn
+RUN bun i
 
-RUN corepack yarn build
+RUN bun build
 
 FROM node:lts-alpine
 
@@ -17,10 +17,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN corepack install -g yarn@4.2.2
-RUN corepack yarn set version 4.2.2
-
-RUN corepack yarn install --production
+RUN bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
