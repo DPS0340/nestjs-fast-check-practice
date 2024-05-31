@@ -6,12 +6,12 @@ RUN apk add curl bash
 
 RUN curl -fsSL https://bun.sh/install | bash
 
-COPY . .
-
-RUN echo -e 'export BUN_INSTALL="$HOME/.bun"\n\
+RUN echo -e 'export BUN_INSTALL="~/.bun"\n\
     export PATH="$BUN_INSTALL/bin:$PATH"' > ~/.bashrc
 
 SHELL ["/bin/bash", "-c"]
+
+COPY . .
 
 RUN bun i
 
@@ -20,6 +20,15 @@ RUN bun build
 FROM node:lts-alpine
 
 WORKDIR /app
+
+RUN apk add curl bash
+
+RUN curl -fsSL https://bun.sh/install | bash
+
+RUN echo -e 'export BUN_INSTALL="~/.bun"\n\
+    export PATH="$BUN_INSTALL/bin:$PATH"' > ~/.bashrc
+
+SHELL ["/bin/bash", "-c"]
 
 COPY . .
 
