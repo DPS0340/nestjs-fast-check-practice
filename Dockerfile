@@ -1,38 +1,22 @@
-FROM node:lts-alpine as builder
-
+FROM node:lts-alpine AS builder
 WORKDIR /builder
 
-RUN apk add curl bash
-
-RUN curl -fsSL https://bun.sh/install | bash
-
-RUN echo -e 'export BUN_INSTALL="~/.bun"\n\
-    export PATH="$BUN_INSTALL/bin:$PATH"' > ~/.bashrc
-
-SHELL ["/bin/bash", "-c"]
+RUN npm i -g bun
 
 COPY . .
 
-RUN cd /builder && ~/.bun/bin/bun i
+RUN bun install
 
-RUN cd /builder && ~/.bun/bin/bun build
+RUN bun build
 
-FROM node:lts-alpine
-
+FROM node:lts
 WORKDIR /app
 
-RUN apk add curl bash
-
-RUN curl -fsSL https://bun.sh/install | bash
-
-RUN echo -e 'export BUN_INSTALL="~/.bun"\n\
-    export PATH="$BUN_INSTALL/bin:$PATH"' > ~/.bashrc
-
-SHELL ["/bin/bash", "-c"]
+RUN npm i -g bun
 
 COPY . .
 
-RUN cd /builder && ~/.bun/bin/bun install --production
+RUN bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
