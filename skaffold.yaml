@@ -1,0 +1,17 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: nestjs-fast-check-practice
+build:
+  artifacts:
+    - image: ghcr.io/dps0340/nestjs-fast-check-practice/nestjs-fast-check-practice
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  helm:
+    releases:
+      - name: nestjs-fast-check-practice
+        chartPath: charts/nestjs-fast-check-practice
+        valuesFiles:
+          - charts/nestjs-fast-check-practice/values.yaml
+        version: 0.1.0
