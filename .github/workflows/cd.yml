@@ -4,7 +4,7 @@ on:
   pull_request:
 
 jobs:
-  nest-test:
+  build-and-push-container-image:
     runs-on: ubuntu-24.04
     steps:
       - name: checkout
@@ -12,7 +12,7 @@ jobs:
       - name: Kaniko build
         uses: aevea/action-kaniko@master
         with:
-          image: ghcr.io/dps0340/nestjs-fast-check-practice
-          username: ${{ github.repository }}
+          image: ghcr.io/dps0340/nestjs-fast-check-practice:latest
+          username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
           cache: true
