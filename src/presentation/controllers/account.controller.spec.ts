@@ -5,7 +5,10 @@ import { AccountsUseCases } from '../../application/use-cases/account.use-case';
 import { AccountEntity } from '../../domain/entities/account.entity';
 import { INestApplication } from '@nestjs/common';
 import { AccountCreateRequestDto } from '../dtos/requests/create/account.create.request.dto';
-import { TransferEntity } from '../../domain/entities/transfer.entity';
+import {
+  TransferEntity,
+  TransferType,
+} from '../../domain/entities/transfer.entity';
 import { AccountRequestDtoMapper } from '../dtos/mappers/requests/account.request.dto.mapper';
 import { AccountResponseDtoMapper } from '../dtos/mappers/responses/account.response.dto.mapper';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
@@ -124,7 +127,9 @@ describe('AccountController', () => {
                 [e, e].map(
                   (amount, idx) =>
                     ({
-                      type: ['deposit', 'withdraw'][idx],
+                      type: [TransferType.Deposit, TransferType.Withdrawal][
+                        idx
+                      ],
                       accountId: id,
                       amount,
                     }) as TransferCreateRequestDto,

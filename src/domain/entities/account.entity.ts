@@ -6,7 +6,7 @@ import {
   PrimaryKey,
   Property,
 } from '@mikro-orm/core';
-import { TransferEntity } from './transfer.entity';
+import { TransferEntity, TransferType } from './transfer.entity';
 
 @Entity()
 export class AccountEntity {
@@ -21,10 +21,10 @@ export class AccountEntity {
   getBalance() {
     return this.transfers
       .map((e) => {
-        if (e.type === 'deposit') {
+        if (e.type === TransferType.Deposit) {
           return e.amount;
         }
-        if (e.type === 'withdraw') {
+        if (e.type === TransferType.Withdrawal) {
           return -e.amount;
         }
         return 0;

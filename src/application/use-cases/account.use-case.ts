@@ -5,7 +5,10 @@ import {
 } from '@mikro-orm/core';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { AccountEntity } from '../../domain/entities/account.entity';
-import { TransferEntity } from '../../domain/entities/transfer.entity';
+import {
+  TransferEntity,
+  TransferType,
+} from '../../domain/entities/transfer.entity';
 import { AccountRequestDtoMapper } from '../../presentation/dtos/mappers/requests/account.request.dto.mapper';
 import { AccountResponseDtoMapper } from '../../presentation/dtos/mappers/responses/account.response.dto.mapper';
 import { AccountCreateRequestDto } from '../../presentation/dtos/requests/create/account.create.request.dto';
@@ -72,9 +75,9 @@ export class AccountsUseCases {
 
     await this.em.transactional(
       async (em) => {
-        if (data.type === 'deposit') {
+        if (data.type === TransferType.Deposit) {
           account.rawBalance += data.amount;
-        } else {
+        } else if (data.type === TransferType.Withdrawal) {
           account.rawBalance -= data.amount;
         }
         await em.persistAndFlush(account);
