@@ -20,4 +20,4 @@ RUN bun install --production
 
 COPY --from=builder /builder/dist ./dist
 
-CMD ["node", "dist/server.js"]
+CMD ["node", "dist/main.js"]
