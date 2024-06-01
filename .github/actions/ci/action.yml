@@ -10,6 +10,7 @@ runs:
     - name: Start minikube
       uses: medyagh/setup-minikube@master
     - name: Install skaffold
+      shell: bash
       run: |
         curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
         sudo install skaffold /usr/local/bin/
@@ -20,22 +21,31 @@ runs:
         cache: "npm"
     - name: install bun package manager
       run: npm i -g bun
+      shell: bash
     - run: bun i
+      shell: bash
     - run: npm test
+      shell: bash
     - run: bun i -g wait-on
+      shell: bash
     - run: nohup npm run start:dev &
+      shell: bash
       continue-on-error: true
     - name: Check nest server port opens
+      shell: bash
       run: |
         npx wait-on http://localhost:3000/api/swagger && \
         sudo kill -9 `sudo lsof -t -i:3000`
     - name: Run skaffold
+      shell: bash
       run: |
         skaffold config set --global collect-metrics false && \
         skaffold build && \
         skaffold run
     - name: Run kubectl get pods
+      shell: bash
       run: kubectl get pods -A
     - name: Run kubectl exec test
+      shell: bash
       run: |
         kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/nvm.sh && npm run test"
