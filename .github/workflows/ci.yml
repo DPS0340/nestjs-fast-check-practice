@@ -22,11 +22,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "npm"
+          cache: 'npm'
       - name: install bun package manager
         run: npm i -g bun
       - run: bun i
-      - run: bun test
+      - run: npm test
       - run: bun i -g wait-on
       - run: nohup npm start:dev &
         continue-on-error: true
