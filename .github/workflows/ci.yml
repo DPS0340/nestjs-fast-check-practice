@@ -28,7 +28,7 @@ jobs:
       - run: bun i
       - run: npm test
       - run: bun i -g wait-on
-      - run: nohup npm start:dev &
+      - run: nohup npm run start:dev &
         continue-on-error: true
       - name: Check nest server port opens
         run: |
