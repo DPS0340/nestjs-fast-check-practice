@@ -48,4 +48,4 @@ runs:
     - name: Run kubectl exec test
       shell: bash
       run: |
-        kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/nvm.sh && npm run test"
+        kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/.nvm/nvm.sh && npm run test"
