@@ -4,7 +4,7 @@
 
 Testing is important, but making testing is hard, so some developers even don't make tests.
 
-So, I decided to make example repository based on propery used property based testing, on nestjs ecosystem.
+So, I decided to make example repository based on properly used property based testing, on nestjs ecosystem.
 
 ## Installation
 
