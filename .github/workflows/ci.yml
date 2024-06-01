@@ -22,7 +22,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: "npm"
       - name: install bun package manager
         run: npm i -g bun
       - run: bun i
@@ -36,6 +36,8 @@ jobs:
           sudo kill -9 `sudo lsof -t -i:3000`
       - name: Run skaffold
         run: |
+          skaffold config set --global collect-metrics false && \
+          skaffold build && \
           skaffold run
       - name: Run kubectl get pods
         run: kubectl get pods -A
