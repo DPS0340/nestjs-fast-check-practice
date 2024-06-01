@@ -34,6 +34,13 @@ spec:
             - name: db
               containerPort: 5432
               protocol: TCP
+          env:
+            - name: POSTGRES_DB
+              value: {{ include "nestjs-fast-check-practice.database.database" . }}
+            - name: POSTGRES_USER
+              value: {{ include "nestjs-fast-check-practice.database.user" . }}
+            - name: POSTGRES_PASSWORD
+              value: {{ include "nestjs-fast-check-practice.database.password" . }}
           resources:
             {{- toYaml .Values.database.resources | nindent 12 }}
           {{- with .Values.database.volumeMounts }}

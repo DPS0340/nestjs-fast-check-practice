@@ -27,6 +27,10 @@ describe('AccountController', () => {
       allowGlobalContext: true,
       dbName: 'nestjs-fast-check-pracice',
       driver: PostgreSqlDriver,
+      host: 'nestjs-fast-check-practice-database',
+      port: 5432,
+      user: 'nestjs-fast-check-practice',
+      password: 'nestjs-fast-check-practice',
       extensions: [EntityGenerator, Migrator],
     };
 

@@ -112,3 +112,7 @@ database:
   resources: {}
   volumeMounts: []
   volumes: []
+  database:
+    database: nestjs-fast-check-practice
+    user: nestjs-fast-check-practice
+    password: nestjs-fast-check-practice

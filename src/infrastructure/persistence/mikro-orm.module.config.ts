@@ -10,5 +10,9 @@ export const mikroOrmModuleConfig: MikroOrmModuleSyncOptions = {
   entitiesTs: ['../../../src/domain/entities'],
   dbName: 'nestjs-fast-check-practice',
   driver: PostgreSqlDriver,
+  host: 'nestjs-fast-check-practice-database',
+  port: 5432,
+  user: 'nestjs-fast-check-practice',
+  password: 'nestjs-fast-check-practice',
   extensions: [EntityGenerator, Migrator],
 };
