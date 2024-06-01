@@ -33,8 +33,8 @@ runs:
     - name: Wait until app & db running
       shell: bash
       run: |
-        kubectl wait sts/nestjs-fast-check-practice-database --for condition=Running && \
-        kubectl wait deploy/nestjs-fast-check-practice --for condition=Running
+        kubectl wait sts/nestjs-fast-check-practice-database --for condition=Running --timeout=5m && \
+        kubectl wait deploy/nestjs-fast-check-practice --for condition=Running --timeout=5m
     - name: Run kubectl exec test
       shell: bash
       run: |
