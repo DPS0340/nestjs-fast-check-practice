@@ -105,10 +105,10 @@ database:
   labels: {}
   podLabels: {}
   image:
-    repository: ghcr.io/dps0340/nestjs-fast-check-practice/nestjs-fast-check-practice
+    repository: docker.io/library/postgres
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    tag: "16.3"
   resources: {}
   volumeMounts: []
   volumes: []
