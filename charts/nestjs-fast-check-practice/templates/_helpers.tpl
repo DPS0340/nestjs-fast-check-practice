@@ -51,6 +51,27 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Common labels (Database)
+*/}}
+{{- define "nestjs-fast-check-practice.database.labels" -}}
+helm.sh/chart: {{ include "nestjs-fast-check-practice.chart" . }}
+{{ include "nestjs-fast-check-practice.database.selectorLabels" . }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+{{- end }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+
+{{/*
+Selector labels (Database)
+*/}}
+{{- define "nestjs-fast-check-practice.database.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nestjs-fast-check-practice.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}-database
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "nestjs-fast-check-practice.serviceAccountName" -}}

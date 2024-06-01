@@ -100,3 +100,15 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+database:
+  labels: {}
+  podLabels: {}
+  image:
+    repository: ghcr.io/dps0340/nestjs-fast-check-practice/nestjs-fast-check-practice
+    pullPolicy: IfNotPresent
+    # Overrides the image tag whose default is the chart appVersion.
+    tag: "latest"
+  resources: {}
+  volumeMounts: []
+  volumes: []
