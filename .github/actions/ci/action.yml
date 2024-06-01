@@ -24,16 +24,6 @@ runs:
       shell: bash
     - run: bun i
       shell: bash
-    - run: bun i -g wait-on
-      shell: bash
-    - run: nohup npm run start:dev &
-      shell: bash
-      continue-on-error: true
-    - name: Check nest server port opens
-      shell: bash
-      run: |
-        npx wait-on http://localhost:3000/api/swagger && \
-        sudo kill -9 `sudo lsof -t -i:3000`
     - name: Run skaffold
       shell: bash
       run: |
