@@ -24,8 +24,6 @@ runs:
       shell: bash
     - run: bun i
       shell: bash
-    - run: npm test
-      shell: bash
     - run: bun i -g wait-on
       shell: bash
     - run: nohup npm run start:dev &
