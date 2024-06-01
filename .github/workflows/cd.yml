@@ -1,11 +1,19 @@
-name: CD
+name: run tests & build and push container image
 on:
   push:
   pull_request:
 
 jobs:
+  tests:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - uses: ./.github/workflows/ci.yml
   build-and-push-container-image:
     runs-on: ubuntu-24.04
+    needs:
+      - tests
     steps:
       - name: checkout
         uses: actions/checkout@v2
