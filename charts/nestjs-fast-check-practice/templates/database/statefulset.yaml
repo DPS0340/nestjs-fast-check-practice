@@ -36,11 +36,11 @@ spec:
               protocol: TCP
           env:
             - name: POSTGRES_DB
-              value: {{ include "nestjs-fast-check-practice.database.database" . }}
+              value: "{{ .Values.database.database.database }}"
             - name: POSTGRES_USER
-              value: {{ include "nestjs-fast-check-practice.database.user" . }}
+              value: "{{ .Values.database.database.user }}"
             - name: POSTGRES_PASSWORD
-              value: {{ include "nestjs-fast-check-practice.database.password" . }}
+              value: "{{ .Values.database.database.password }}"
           resources:
             {{- toYaml .Values.database.resources | nindent 12 }}
           {{- with .Values.database.volumeMounts }}
