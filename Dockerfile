@@ -3,7 +3,7 @@ WORKDIR /builder
 
 RUN apt update -y && apt install -y bash curl
 
-SHELL ["bash", "-c"]
+SHELL ["/bin/bash", "-c"]
 
 # Original code from https://stackoverflow.com/a/28390848/11853111
 ENV nvm_dir /root/.nvm
@@ -26,7 +26,7 @@ WORKDIR /app
 
 RUN apt update -y && apt install -y bash curl
 
-SHELL ["bash", "-c"]
+SHELL ["/bin/bash", "-c"]
 
 ENV nvm_dir /root/.nvm
 ENV node_version 22
