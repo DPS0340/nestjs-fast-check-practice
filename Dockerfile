@@ -1,9 +1,9 @@
 FROM oven/bun:debian AS builder
 WORKDIR /builder
 
-SHELL ["bash", "-c"]
+RUN apt update -y && apt install -y bash curl
 
-RUN apt update -y && apt install -y curl
+SHELL ["bash", "-c"]
 
 # Original code from https://stackoverflow.com/a/28390848/11853111
 ENV nvm_dir /root/.nvm
@@ -24,9 +24,9 @@ RUN . $nvm_dir/nvm.sh && npm run build
 FROM oven/bun:debian
 WORKDIR /app
 
-SHELL ["bash", "-c"]
+RUN apt update -y && apt install -y bash curl
 
-RUN apt update -y && apt install -y curl
+SHELL ["bash", "-c"]
 
 ENV nvm_dir /root/.nvm
 ENV node_version 22
