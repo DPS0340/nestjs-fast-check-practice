@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v2
-      - uses: ./.github/workflows/ci.yml
+      - uses: ./.github/actions/ci
   build-and-push-container-image:
     runs-on: ubuntu-24.04
     needs:

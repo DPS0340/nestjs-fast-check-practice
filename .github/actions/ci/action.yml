@@ -1,0 +1,41 @@
+name: run tests
+description: run tests based on jest, fast-check, nestjs/testing
+inputs: {}
+outputs: {}
+runs:
+  using: "composite"
+  steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: Start minikube
+      uses: medyagh/setup-minikube@master
+    - name: Install skaffold
+      run: |
+        curl -Lo skaffold https://storage.googleapis.com/skaffold/releases/latest/skaffold-linux-amd64 && \
+        sudo install skaffold /usr/local/bin/
+    - name: Use Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: "npm"
+    - name: install bun package manager
+      run: npm i -g bun
+    - run: bun i
+    - run: npm test
+    - run: bun i -g wait-on
+    - run: nohup npm run start:dev &
+      continue-on-error: true
+    - name: Check nest server port opens
+      run: |
+        npx wait-on http://localhost:3000/api/swagger && \
+        sudo kill -9 `sudo lsof -t -i:3000`
+    - name: Run skaffold
+      run: |
+        skaffold config set --global collect-metrics false && \
+        skaffold build && \
+        skaffold run
+    - name: Run kubectl get pods
+      run: kubectl get pods -A
+    - name: Run kubectl exec test
+      run: |
+        kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/nvm.sh && npm run test"
