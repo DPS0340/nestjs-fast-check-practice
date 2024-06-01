@@ -32,6 +32,7 @@ describe('AccountController', () => {
       user: 'nestjs-fast-check-practice',
       password: 'nestjs-fast-check-practice',
       extensions: [EntityGenerator, Migrator],
+      connect: false,
     };
 
     const moduleFixture: TestingModule = await Test.createTestingModule({
