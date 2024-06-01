@@ -32,7 +32,7 @@ export class AccountEntity {
       .reduce((a, b) => a + b, 0);
   }
 
-  @Property()
+  @Property({ columnType: 'bigint' })
   rawBalance: number = 0;
 
   @OneToMany(() => TransferEntity, (e) => e.account, {

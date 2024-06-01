@@ -14,7 +14,7 @@ export class TransferEntity {
   @ManyToOne({ entity: () => AccountEntity })
   account!: AccountEntity;
 
-  @Property()
+  @Property({ columnType: 'bigint' })
   amount!: number;
 
   @Enum(() => TransferType)
