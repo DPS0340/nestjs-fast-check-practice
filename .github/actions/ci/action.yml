@@ -42,9 +42,11 @@ runs:
         skaffold config set --global collect-metrics false && \
         skaffold build && \
         skaffold run
-    - name: Run kubectl get pods
+    - name: Wait until app & db running
       shell: bash
-      run: kubectl get pods -A
+      run: |
+        kubectl wait sts/nestjs-fast-check-practice-database --for condition=Running && \
+        kubectl wait deploy/nestjs-fast-check-practice --for condition=Running
     - name: Run kubectl exec test
       shell: bash
       run: |
