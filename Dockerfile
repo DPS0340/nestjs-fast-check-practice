@@ -1,6 +1,8 @@
 FROM oven/bun:alpine AS builder
 WORKDIR /builder
 
+RUN apk add nodejs npm
+
 COPY . .
 
 RUN bun install
@@ -11,6 +13,8 @@ FROM oven/bun:alpine
 WORKDIR /app
 
 COPY . .
+
+RUN apk add nodejs npm
 
 RUN bun install --production
 
