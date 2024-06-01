@@ -8,7 +8,6 @@ import { AccountCreateRequestDto } from '../dtos/requests/create/account.create.
 import { TransferEntity } from '../../domain/entities/transfer.entity';
 import { AccountRequestDtoMapper } from '../dtos/mappers/requests/account.request.dto.mapper';
 import { AccountResponseDtoMapper } from '../dtos/mappers/responses/account.response.dto.mapper';
-import { SqliteDriver } from '@mikro-orm/sqlite';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { TransferRequestDtoMapper } from '../dtos/mappers/requests/transfer.request.dto.mapper';
 import { TransferResponseDtoMapper } from '../dtos/mappers/responses/transfer.response.dto.mapper';
@@ -16,6 +15,7 @@ import { MikroORM } from '@mikro-orm/core';
 import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
 import { TransferCreateRequestDto } from '../dtos/requests/create/transfer.create.request.dto';
+import { PostgreSqlDriver } from '@mikro-orm/postgresql';
 
 describe('AccountController', () => {
   let app: INestApplication;
@@ -25,8 +25,8 @@ describe('AccountController', () => {
     const mikroOrmConfig = {
       autoLoadEntities: true,
       allowGlobalContext: true,
-      dbName: 'test.db.sqlite3',
-      driver: SqliteDriver,
+      dbName: 'nestjs-fast-check-pracice',
+      driver: PostgreSqlDriver,
       extensions: [EntityGenerator, Migrator],
     };
 
