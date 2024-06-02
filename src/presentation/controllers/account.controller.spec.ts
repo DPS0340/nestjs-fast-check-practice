@@ -4,7 +4,7 @@ import { AccountController } from './account.controller';
 import { AccountsUseCases } from '../../application/use-cases/account.use-case';
 import { AccountEntity } from '../../domain/entities/account.entity';
 import { INestApplication } from '@nestjs/common';
-import { AccountCreateRequestDto } from '../dtos/requests/create/account.create.request.dto';
+import { AccountCreateRequestDtoSchema } from '../dtos/requests/create/account.create.request.dto';
 import {
   TransferEntity,
   TransferType,
@@ -19,10 +19,14 @@ import { EntityGenerator } from '@mikro-orm/entity-generator';
 import { Migrator } from '@mikro-orm/migrations';
 import { TransferCreateRequestDto } from '../dtos/requests/create/transfer.create.request.dto';
 import { PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { ZodFastCheck } from 'zod-fast-check';
 
 describe('AccountController', () => {
   let app: INestApplication;
   let accountController: AccountController;
+  const accountCreateRequestDtoArbitrary = ZodFastCheck().inputOf(
+    AccountCreateRequestDtoSchema,
+  );
 
   beforeEach(async () => {
     const mikroOrmConfig = {
@@ -72,10 +76,7 @@ describe('AccountController', () => {
 
   it('should success to create user', async () => {
     await fc.assert(
-      fc.asyncProperty(fc.string(), async (name) => {
-        const requestDto: AccountCreateRequestDto = {
-          name,
-        };
+      fc.asyncProperty(accountCreateRequestDtoArbitrary, async (requestDto) => {
         const {
           name: accountName,
           id,
@@ -89,10 +90,7 @@ describe('AccountController', () => {
   });
   it('should get user using id from create user', async () => {
     await fc.assert(
-      fc.asyncProperty(fc.string(), async (name) => {
-        const requestDto: AccountCreateRequestDto = {
-          name,
-        };
+      fc.asyncProperty(accountCreateRequestDtoArbitrary, async (requestDto) => {
         const { id } = await accountController.create(requestDto);
 
         const responseDto = await accountController.findById(id);
@@ -106,12 +104,9 @@ describe('AccountController', () => {
   it('should final amount is 0 from +- amount transfers', async () => {
     await fc.assert(
       fc.asyncProperty(
-        fc.string(),
+        accountCreateRequestDtoArbitrary,
         fc.array(fc.nat()),
-        async (name, amounts) => {
-          const requestDto: AccountCreateRequestDto = {
-            name,
-          };
+        async (requestDto, amounts) => {
           const { id } = await accountController.create(requestDto);
 
           let userDto = await accountController.findById(id);
