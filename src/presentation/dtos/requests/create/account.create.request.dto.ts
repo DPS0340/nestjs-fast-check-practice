@@ -6,6 +6,6 @@ export class AccountCreateRequestDto {
   name: string;
 }
 
-export const AccountCreateRequestDtoSchema = z.instanceof(
-  AccountCreateRequestDto,
-);
+export const AccountCreateRequestDtoSchema = z.object({
+  name: z.string(),
+});
