@@ -1,7 +1,7 @@
 FROM oven/bun:debian AS builder
 WORKDIR /builder
 
-RUN apt update -y && apt install -y bash curl
+RUN apt update -y && apt install -y bash curl python3 python3-pip python-is-python3
 
 SHELL ["/bin/bash", "-c"]
 
