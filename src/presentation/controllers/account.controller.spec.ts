@@ -4,7 +4,10 @@ import { AccountController } from './account.controller';
 import { AccountsUseCases } from '../../application/use-cases/account.use-case';
 import { AccountEntity } from '../../domain/entities/account.entity';
 import { INestApplication } from '@nestjs/common';
-import { AccountCreateRequestDtoSchema } from '../dtos/requests/create/account.create.request.dto';
+import {
+  AccountCreateRequestDto,
+  AccountCreateRequestDtoSchema,
+} from '../dtos/requests/create/account.create.request.dto';
 import {
   TransferEntity,
   TransferType,
@@ -26,7 +29,9 @@ describe('AccountController', () => {
   let accountController: AccountController;
   const accountCreateRequestDtoArbitrary = ZodFastCheck().inputOf(
     AccountCreateRequestDtoSchema,
-  );
+  ) as fc.Arbitrary<{
+    [k in keyof AccountCreateRequestDto]: AccountCreateRequestDto[k];
+  }>;
 
   beforeEach(async () => {
     const mikroOrmConfig = {
@@ -82,7 +87,7 @@ describe('AccountController', () => {
           id,
           balance,
         } = await accountController.create(requestDto);
-        expect(accountName).toEqual(name);
+        expect(accountName).toEqual(requestDto.name);
         expect(id).toEqual(expect.any(Number));
         expect(balance).toEqual(0);
       }),
