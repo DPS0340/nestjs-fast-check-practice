@@ -28,3 +28,7 @@ $ kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/.n
 ```
 
 - You'll better to run github actions based ci.
+
+## License
+
+MIT
