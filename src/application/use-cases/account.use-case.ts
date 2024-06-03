@@ -3,7 +3,6 @@ import {
   EntityRepository,
   IsolationLevel,
   LockMode,
-  raw,
 } from '@mikro-orm/core';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { AccountEntity } from '../../domain/entities/account.entity';
@@ -77,29 +76,27 @@ export class AccountsUseCases {
 
     await this.em.transactional(
       async (em) => {
-        const accountRef = this.accountRepository.getReference(account.id);
         if (data.type === TransferType.Deposit) {
-          accountRef.rawBalance += 1;
+          account.rawBalance += 1;
         } else if (data.type === TransferType.Withdrawal) {
-          accountRef.rawBalance -= 1;
+          account.rawBalance -= 1;
         }
-        await em.persistAndFlush(accountRef);
+        await em.persistAndFlush(account);
       },
       { isolationLevel: IsolationLevel.SERIALIZABLE },
     );
 
     const transfer = await this.em.transactional(
       async (em) => {
-        const accountRef = this.accountRepository.getReference(account.id);
         const transfer = this.transferRepository.create({
           amount: data.amount,
           type: data.type,
         });
 
-        await accountRef.transfers.loadItems();
-        accountRef.transfers.add(transfer);
+        await account.transfers.loadItems();
+        account.transfers.add(transfer);
 
-        await em.persist(transfer).persist(accountRef).flush();
+        await em.persist(transfer).persist(account).flush();
         return transfer;
       },
       { isolationLevel: IsolationLevel.SERIALIZABLE },
