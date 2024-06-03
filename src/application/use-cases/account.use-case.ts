@@ -2,6 +2,8 @@ import {
   EntityManager,
   EntityRepository,
   IsolationLevel,
+  LockMode,
+  raw,
 } from '@mikro-orm/core';
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { AccountEntity } from '../../domain/entities/account.entity';
@@ -49,7 +51,7 @@ export class AccountsUseCases {
     console.log({ data });
     const entity = await this.accountRepository.create(data);
 
-    await this.em.flush();
+    await this.em.persistAndFlush(entity);
 
     console.log({ entity });
     console.log({ transfers: entity.transfers });
@@ -63,7 +65,7 @@ export class AccountsUseCases {
       {
         id: data.accountId,
       },
-      { populate: ['transfers'] },
+      { populate: ['transfers'], lockMode: LockMode.PESSIMISTIC_WRITE },
     );
     if (data.amount <= 0) {
       // Validation check handling
@@ -75,27 +77,29 @@ export class AccountsUseCases {
 
     await this.em.transactional(
       async (em) => {
+        const accountRef = this.accountRepository.getReference(account.id);
         if (data.type === TransferType.Deposit) {
-          account.rawBalance += data.amount;
+          accountRef.rawBalance += 1;
         } else if (data.type === TransferType.Withdrawal) {
-          account.rawBalance -= data.amount;
+          accountRef.rawBalance -= 1;
         }
-        await em.persistAndFlush(account);
+        await em.persistAndFlush(accountRef);
       },
       { isolationLevel: IsolationLevel.SERIALIZABLE },
     );
 
     const transfer = await this.em.transactional(
       async (em) => {
+        const accountRef = this.accountRepository.getReference(account.id);
         const transfer = this.transferRepository.create({
           amount: data.amount,
           type: data.type,
         });
 
-        await account.transfers.loadItems();
-        account.transfers.add(transfer);
+        await accountRef.transfers.loadItems();
+        accountRef.transfers.add(transfer);
 
-        await em.persistAndFlush(transfer);
+        await em.persist(transfer).persist(accountRef).flush();
         return transfer;
       },
       { isolationLevel: IsolationLevel.SERIALIZABLE },
