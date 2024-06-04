@@ -16,14 +16,14 @@ $ bun install
 
 ```bash
 # development
-$ devspace run
+$ skaffold run
 ```
 
 ## Test
 
 ```bash
 # unit tests
-$ devspace run
+$ skaffold run
 $ kubectl exec -it deploy/nestjs-fast-check-practice -- /bin/bash -c ". /root/.nvm/nvm.sh && npm run test"
 ```
 
